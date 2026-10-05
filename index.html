@@ -49,46 +49,114 @@
         ::-webkit-scrollbar-thumb { background: #333333; }
         ::-webkit-scrollbar-thumb:hover { background: #E60012; }
 
-        /* 背景オーブアニメーション */
-        @keyframes drift1 {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(5vw, 10vh) scale(1.2); }
-            100% { transform: translate(0, 0) scale(1); }
+        /* ========================================
+           スタイリッシュ背景アニメーション
+        ======================================== */
+        .bg-stripe {
+            background-image: repeating-linear-gradient(
+                -45deg,
+                rgba(230, 0, 18, 0.05) 0px,
+                rgba(230, 0, 18, 0.05) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+            background-size: 28.28px 28.28px;
+            animation: stripeScroll 5s linear infinite;
         }
-        @keyframes drift2 {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-10vw, -5vh) scale(1.1); }
-            100% { transform: translate(0, 0) scale(1); }
+        @keyframes stripeScroll {
+            0% { background-position: 0 0; }
+            100% { background-position: -28.28px 28.28px; }
         }
-        .bg-orb-1 {
-            animation: drift1 20s infinite ease-in-out;
+
+        .bg-slit {
+            position: absolute;
+            width: 200%;
+            height: 2px;
+            background: rgba(230,0,18,0.3);
+            box-shadow: 0 0 20px 2px rgba(230,0,18,0.7);
+            transform: rotate(-15deg);
+            left: -50%;
+            animation: slitMove 6s infinite ease-in-out;
         }
-        .bg-orb-2 {
-            animation: drift2 25s infinite ease-in-out;
+        .bg-slit-sub {
+            height: 1px;
+            background: rgba(230,0,18,0.15);
+            box-shadow: 0 0 10px 1px rgba(230,0,18,0.4);
+            animation-duration: 9s;
+            animation-delay: 2s;
+        }
+        @keyframes slitMove {
+            0% { top: -20%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 120%; opacity: 0; }
+        }
+
+        /* ========================================
+           OPアニメーション (CSS Keyframes制御)
+        ======================================== */
+        .op-wrapper {
+            animation: opFadeOut 2.5s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+        }
+        .op-slash-anim {
+            animation: slashExpand 0.8s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+        }
+        .op-panel-top-anim {
+            animation: panelTopMove 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+        }
+        .op-panel-bottom-anim {
+            animation: panelBottomMove 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+        }
+        .op-logo-anim {
+            animation: logoReveal 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes slashExpand {
+            0% { width: 0; opacity: 1; }
+            40% { width: 100%; opacity: 1; }
+            50% { width: 100%; opacity: 0; }
+            100% { width: 100%; opacity: 0; }
+        }
+        @keyframes panelTopMove {
+            0%, 30% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
+        }
+        @keyframes panelBottomMove {
+            0%, 30% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+        @keyframes logoReveal {
+            0%, 30% { opacity: 0; transform: scale(0.8); }
+            60% { opacity: 1; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+        @keyframes opFadeOut {
+            0%, 80% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
         }
     </style>
 </head>
 <body class="font-sans pb-20 md:pb-0 relative min-h-screen">
 
     <!-- ==================== 常時背景アニメーション ==================== -->
-    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-darkbase">
-        <!-- ぼんやり光る赤いオーブ -->
-        <div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] md:w-[40vw] md:h-[40vw] rounded-full bg-crimson opacity-[0.07] blur-[100px] bg-orb-1"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[70vw] h-[70vw] md:w-[50vw] md:h-[50vw] rounded-full bg-crimson opacity-[0.05] blur-[120px] bg-orb-2"></div>
+    <div class="fixed inset-0 z-[-1] overflow-hidden bg-darkbase pointer-events-none">
+        <div class="absolute inset-0 bg-stripe"></div>
+        <div class="bg-slit"></div>
+        <div class="bg-slit bg-slit-sub"></div>
     </div>
 
     <!-- ==================== OP アニメーション (P5 Style) ==================== -->
-    <div id="op-anim" class="fixed inset-0 z-[100] bg-darkbase flex items-center justify-center overflow-hidden transition-opacity duration-700 ease-out">
-        <div id="op-logo" class="absolute z-[101] flex items-center justify-center opacity-0 scale-75 transition-all duration-700 ease-out w-full px-4">
+    <div id="op-anim" class="fixed inset-0 z-[100] bg-darkbase flex items-center justify-center overflow-hidden op-wrapper">
+        <div class="absolute z-[101] flex items-center justify-center w-full px-4 opacity-0 op-logo-anim">
             <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white italic tracking-tighter -rotate-2 drop-shadow-[4px_4px_0_#E60012] text-center leading-tight">
                 WEBPARTNER MINAMI<span class="text-crimson">.</span>
             </h1>
         </div>
-        <div class="absolute inset-0 z-[102] flex flex-col justify-center items-center -rotate-[15deg] scale-150 pointer-events-none">
-            <div id="op-panel-top" class="w-full h-[60vh] bg-black transition-transform duration-700 ease-in-out translate-y-0 relative">
-                <div id="op-slash" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[4px] bg-white shadow-[0_0_25px_10px_rgba(230,0,18,0.9)] transition-all duration-300 ease-out"></div>
+        <div class="absolute inset-0 z-[102] flex flex-col justify-center items-center pointer-events-none" style="transform: rotate(-15deg) scale(1.5);">
+            <div class="w-full h-[60vh] bg-black relative op-panel-top-anim">
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 h-[4px] bg-white shadow-[0_0_25px_10px_rgba(230,0,18,0.9)] w-0 op-slash-anim"></div>
             </div>
-            <div id="op-panel-bottom" class="w-full h-[60vh] bg-black transition-transform duration-700 ease-in-out translate-y-0"></div>
+            <div class="w-full h-[60vh] bg-black op-panel-bottom-anim"></div>
         </div>
     </div>
     <!-- ==================================================================== -->
@@ -132,12 +200,10 @@
     <section class="relative h-screen flex items-center justify-center pt-20">
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=2000&auto=format&fit=crop" alt="ビジネスシーン" class="w-full h-full object-cover" />
-            <!-- 背景画像を少し暗くし、背後のオーブを見えやすくする -->
             <div class="absolute inset-0 bg-darkbase/85 mix-blend-multiply"></div>
         </div>
         
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto fade-up">
-            <!-- インラインブロックによる文節ごとの確実な改行制御 -->
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-8">
                 <span class="inline-block">「作る」で</span><span class="inline-block">終わらせない。</span><br class="hidden md:block">
                 <span class="inline-block">効率度外視で</span><span class="inline-block">あなたのビジネスに</span><span class="inline-block">伴走する、</span><br class="hidden md:block">
@@ -154,10 +220,9 @@
     </section>
 
     <!-- Target & Problem Section -->
-    <section class="py-24 border-b-2 border-bordergray bg-transparent">
+    <section class="py-24 border-b-2 border-bordergray bg-transparent relative z-10">
         <div class="max-w-4xl mx-auto px-4 fade-up">
             <div class="text-center mb-16">
-                <!-- インラインブロックによる文節ごとの確実な改行制御 -->
                 <h2 class="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
                     <span class="inline-block">こんな「怒り」や</span><span class="inline-block">「悩み」、</span><br class="md:hidden">
                     <span class="inline-block">抱えていませんか？</span>
@@ -188,8 +253,8 @@
         </div>
     </section>
 
-    <!-- 3 Promises (Strengths) Section -->
-    <section class="py-24 bg-black/80 backdrop-blur-sm border-b-2 border-bordergray">
+    <!-- 3 Promises Section -->
+    <section class="py-24 bg-black/80 backdrop-blur-sm border-b-2 border-bordergray relative z-10">
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-center mb-16 fade-up">
                 <p class="text-crimson font-bold tracking-widest mb-2">OUR PROMISE</p>
@@ -234,7 +299,7 @@
     </section>
 
     <!-- Services Teaser Section -->
-    <section class="py-24 bg-transparent border-b-2 border-bordergray">
+    <section class="py-24 bg-transparent border-b-2 border-bordergray relative z-10">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center gap-12 fade-up">
                 <div class="w-full md:w-1/2 relative h-80 border-2 border-bordergray">
@@ -258,7 +323,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black pt-16 pb-8 border-t-2 border-bordergray">
+    <footer class="bg-black pt-16 pb-8 border-t-2 border-bordergray relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center md:items-start gap-8 mb-12">
             <div>
                 <a href="index.html" class="text-3xl font-black tracking-wider text-white block mb-4">
@@ -287,43 +352,16 @@
 
     <!-- JavaScript -->
     <script>
-        // オープニングアニメーション
+        // OPアニメーション制御（スクロールロックのみ）
         window.addEventListener('DOMContentLoaded', () => {
             const opAnim = document.getElementById('op-anim');
-            const opSlash = document.getElementById('op-slash');
-            const opPanelTop = document.getElementById('op-panel-top');
-            const opPanelBottom = document.getElementById('op-panel-bottom');
-            const opLogo = document.getElementById('op-logo');
-
             if(opAnim) {
                 document.body.style.overflow = 'hidden';
-
+                // CSSアニメーションの終了(2.5s)に合わせてDOM削除
                 setTimeout(() => {
-                    opSlash.style.width = '100%';
-                }, 300);
-
-                setTimeout(() => {
-                    opSlash.style.opacity = '0';
-                    opPanelTop.style.transform = 'translateY(-100%)';
-                    opPanelBottom.style.transform = 'translateY(100%)';
-                    
-                    opLogo.style.opacity = '1';
-                    opLogo.style.transform = 'scale(1)';
-                }, 700);
-
-                setTimeout(() => {
-                    opLogo.style.transform = 'scale(1.05)';
-                }, 1400);
-
-                setTimeout(() => {
-                    opAnim.style.opacity = '0';
-                    opAnim.style.pointerEvents = 'none';
                     document.body.style.overflow = '';
-                }, 2200);
-
-                setTimeout(() => {
                     opAnim.remove();
-                }, 2900);
+                }, 2500);
             }
         });
 
@@ -334,7 +372,6 @@
 
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-            
             if (!mobileMenu.classList.contains('hidden')) {
                 lines[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
                 lines[1].style.opacity = '0';
@@ -347,12 +384,7 @@
         });
 
         // スクロールフェードイン
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
-
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
