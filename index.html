@@ -18,7 +18,7 @@
                 extend: {
                     colors: {
                         darkbase: '#0a0a0a',
-                        crimson: '#E60012', // 鮮やかな赤（アクセント）
+                        crimson: '#E60012',
                         bordergray: '#333333'
                     },
                     fontFamily: {
@@ -30,7 +30,6 @@
     </script>
 
     <style>
-        /* カスタムスタイル（アニメーション用） */
         body {
             background-color: #0a0a0a;
             color: #f3f4f6;
@@ -45,31 +44,36 @@
             opacity: 1;
             transform: translateY(0);
         }
-        /* スクロールバーのカスタマイズ（ダークテーマ） */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333333;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #E60012;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333333; }
+        ::-webkit-scrollbar-thumb:hover { background: #E60012; }
     </style>
 </head>
 <body class="font-sans pb-20 md:pb-0">
 
-    <!-- Header (Navbar) -->
+    <!-- ==================== OP アニメーション (P5 Style) ==================== -->
+    <div id="op-anim" class="fixed inset-0 z-[100] bg-darkbase flex items-center justify-center overflow-hidden transition-opacity duration-700 ease-out">
+        <div id="op-logo" class="absolute z-[101] flex items-center justify-center opacity-0 scale-75 transition-all duration-700 ease-out">
+            <h1 class="text-4xl md:text-7xl lg:text-8xl font-black text-white italic tracking-tighter -rotate-2 drop-shadow-[5px_5px_0_#E60012]">
+                WEBPARTNER MINAMI<span class="text-crimson">.</span>
+            </h1>
+        </div>
+        <div class="absolute inset-0 z-[102] flex flex-col justify-center items-center -rotate-[15deg] scale-150 pointer-events-none">
+            <div id="op-panel-top" class="w-full h-[60vh] bg-black transition-transform duration-700 ease-in-out translate-y-0 relative">
+                <div id="op-slash" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[4px] bg-white shadow-[0_0_25px_10px_rgba(230,0,18,0.9)] transition-all duration-300 ease-out"></div>
+            </div>
+            <div id="op-panel-bottom" class="w-full h-[60vh] bg-black transition-transform duration-700 ease-in-out translate-y-0"></div>
+        </div>
+    </div>
+    <!-- ==================================================================== -->
+
     <header class="fixed w-full top-0 z-50 bg-darkbase/90 backdrop-blur-sm border-b-2 border-bordergray">
         <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
             <a href="index.html" class="text-2xl font-black tracking-wider text-white">
                 WEBPARTNER MINAMI<span class="text-crimson">.</span>
             </a>
             
-            <!-- Desktop Nav -->
             <nav class="hidden md:flex space-x-8">
                 <a href="index.html" class="text-white font-bold hover:text-crimson transition-colors duration-300">HOME</a>
                 <a href="service.html" class="text-gray-400 font-bold hover:text-crimson transition-colors duration-300">SERVICE</a>
@@ -81,7 +85,6 @@
                 無料相談はこちら
             </a>
 
-            <!-- Mobile Hamburger Button -->
             <button id="menu-btn" class="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-2">
                 <span class="block w-8 h-1 bg-white transition-transform duration-300 origin-center"></span>
                 <span class="block w-8 h-1 bg-white transition-opacity duration-300"></span>
@@ -89,7 +92,6 @@
             </button>
         </div>
 
-        <!-- Mobile Menu (Hidden by default) -->
         <div id="mobile-menu" class="hidden md:hidden bg-darkbase border-b-2 border-bordergray">
             <nav class="flex flex-col px-4 py-6 space-y-4">
                 <a href="index.html" class="text-white text-lg font-bold border-b border-bordergray pb-2">HOME</a>
@@ -101,9 +103,8 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section (改行クラス追加) -->
     <section class="relative h-screen flex items-center justify-center pt-20">
-        <!-- 背景画像と暗いフィルター（ダーク＆ボールド世界観の強制統一） -->
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=2000&auto=format&fit=crop" alt="ビジネスシーン" class="w-full h-full object-cover" />
             <div class="absolute inset-0 bg-black/80 mix-blend-multiply"></div>
@@ -111,8 +112,8 @@
         
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto fade-up">
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-8">
-                「作る」で終わらせない。<br>
-                効率度外視であなたのビジネスに伴走する、<br>
+                「作る」で終わらせない。<br class="hidden md:block">
+                効率度外視であなたのビジネスに伴走する、<br class="hidden md:block">
                 <span class="text-crimson">超・密着型Webパートナー。</span>
             </h1>
             <p class="text-lg md:text-2xl text-gray-300 font-bold mb-12">
@@ -129,6 +130,7 @@
     <section class="py-24 bg-darkbase border-b-2 border-bordergray">
         <div class="max-w-4xl mx-auto px-4 fade-up">
             <div class="text-center mb-16">
+                <!-- ここは元から md:hidden で正しく制御されていました -->
                 <h2 class="text-3xl md:text-5xl font-black text-white mb-4">こんな「怒り」や「悩み」、<br class="md:hidden">抱えていませんか？</h2>
                 <div class="w-16 h-2 bg-crimson mx-auto"></div>
             </div>
@@ -166,7 +168,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Promise 1 -->
                 <div class="bg-darkbase border-2 border-bordergray p-8 fade-up">
                     <div class="text-crimson mb-6">
                         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -176,7 +177,6 @@
                         専門的なIT用語は一切使いません。初期費用を極限まで抑えた「底ハードル」なHP制作で、あなたのビジネスのデジタル化を最速で実現します。
                     </p>
                 </div>
-                <!-- Promise 2 -->
                 <div class="bg-darkbase border-2 border-bordergray p-8 fade-up" style="transition-delay: 100ms;">
                     <div class="text-crimson mb-6">
                         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
@@ -186,7 +186,6 @@
                         単なる投稿代行には留まりません。BtoB特化のプロモーション台本構築から、現場での画角・カメラワークの指導、日々のDM対応まで、集客に必要な実務をすべて巻き取ります。
                     </p>
                 </div>
-                <!-- Promise 3 -->
                 <div class="bg-darkbase border-2 border-bordergray p-8 fade-up" style="transition-delay: 200ms;">
                     <div class="text-crimson mb-6">
                         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.514"></path></svg>
@@ -209,6 +208,7 @@
                     <div class="absolute inset-0 bg-black/50 mix-blend-multiply"></div>
                 </div>
                 <div class="w-full md:w-1/2">
+                    <!-- ここは元から hidden md:block で正しく制御されていました -->
                     <h2 class="text-3xl md:text-4xl font-black text-white mb-6">「インスタ×HP」の<br class="hidden md:block">最強の相乗効果を生み出す。</h2>
                     <p class="text-gray-300 font-bold mb-8 leading-relaxed">
                         インスタグラムで認知と熱狂を生み出し、信頼性の高いホームページで確実に成約へ繋げる。この導線をゼロから設計し、運用まで私たちが一貫して実行します。
@@ -242,7 +242,7 @@
         </div>
     </footer>
 
-    <!-- 追従型お問い合わせボタン (Mobile First CTA) -->
+    <!-- Mobile Sticky CTA -->
     <div class="fixed bottom-0 left-0 w-full z-40 md:hidden">
         <a href="contact.html" class="block w-full bg-crimson text-white text-center text-lg font-black py-5 border-t-2 border-black">
             まずは無料で相談する
@@ -251,15 +251,50 @@
 
     <!-- JavaScript -->
     <script>
-        // ハンバーガーメニューの開閉制御
+        window.addEventListener('DOMContentLoaded', () => {
+            const opAnim = document.getElementById('op-anim');
+            const opSlash = document.getElementById('op-slash');
+            const opPanelTop = document.getElementById('op-panel-top');
+            const opPanelBottom = document.getElementById('op-panel-bottom');
+            const opLogo = document.getElementById('op-logo');
+
+            if(opAnim) {
+                document.body.style.overflow = 'hidden';
+
+                setTimeout(() => {
+                    opSlash.style.width = '100%';
+                }, 300);
+
+                setTimeout(() => {
+                    opSlash.style.opacity = '0';
+                    opPanelTop.style.transform = 'translateY(-100%)';
+                    opPanelBottom.style.transform = 'translateY(100%)';
+                    opLogo.style.opacity = '1';
+                    opLogo.style.transform = 'scale(1)';
+                }, 700);
+
+                setTimeout(() => {
+                    opLogo.style.transform = 'scale(1.05)';
+                }, 1400);
+
+                setTimeout(() => {
+                    opAnim.style.opacity = '0';
+                    opAnim.style.pointerEvents = 'none';
+                    document.body.style.overflow = '';
+                }, 2200);
+
+                setTimeout(() => {
+                    opAnim.remove();
+                }, 2900);
+            }
+        });
+
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const lines = menuBtn.querySelectorAll('span');
 
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-            
-            // ハンバーガーアイコンのアニメーション（×印に変化）
             if (!mobileMenu.classList.contains('hidden')) {
                 lines[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
                 lines[1].style.opacity = '0';
@@ -271,13 +306,7 @@
             }
         });
 
-        // スクロール時のフェードインアニメーション（Intersection Observer）
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
-
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
