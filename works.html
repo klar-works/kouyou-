@@ -48,12 +48,64 @@
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #333333; }
         ::-webkit-scrollbar-thumb:hover { background: #E60012; }
+
+        /* ========================================
+           スタイリッシュ背景アニメーション
+        ======================================== */
+        /* 1. 斜線ストライプの無限スクロール */
+        .bg-stripe {
+            background-image: repeating-linear-gradient(
+                -45deg,
+                rgba(230, 0, 18, 0.05) 0px,
+                rgba(230, 0, 18, 0.05) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+            background-size: 28.28px 28.28px;
+            animation: stripeScroll 5s linear infinite;
+        }
+        @keyframes stripeScroll {
+            0% { background-position: 0 0; }
+            100% { background-position: -28.28px 28.28px; }
+        }
+
+        /* 2. スキャンライン（光の筋） */
+        .bg-slit {
+            position: absolute;
+            width: 200%;
+            height: 2px;
+            background: rgba(230,0,18,0.3);
+            box-shadow: 0 0 20px 2px rgba(230,0,18,0.7);
+            transform: rotate(-15deg);
+            left: -50%;
+            animation: slitMove 6s infinite ease-in-out;
+        }
+        .bg-slit-sub {
+            height: 1px;
+            background: rgba(230,0,18,0.15);
+            box-shadow: 0 0 10px 1px rgba(230,0,18,0.4);
+            animation-duration: 9s;
+            animation-delay: 2s;
+        }
+        @keyframes slitMove {
+            0% { top: -20%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 120%; opacity: 0; }
+        }
     </style>
 </head>
-<body class="font-sans pb-20 md:pb-0">
+<body class="font-sans pb-20 md:pb-0 relative min-h-screen">
+
+    <!-- ==================== 常時背景アニメーション ==================== -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden bg-darkbase pointer-events-none">
+        <div class="absolute inset-0 bg-stripe"></div>
+        <div class="bg-slit"></div>
+        <div class="bg-slit bg-slit-sub"></div>
+    </div>
 
     <!-- Header (Navbar) -->
-    <header class="fixed w-full top-0 z-50 bg-darkbase/90 backdrop-blur-sm border-b-2 border-bordergray">
+    <header class="fixed w-full top-0 z-50 bg-darkbase/80 backdrop-blur-md border-b-2 border-bordergray">
         <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
             <a href="index.html" class="text-2xl font-black tracking-wider text-white">
                 WEBPARTNER MINAMI<span class="text-crimson">.</span>
@@ -89,7 +141,7 @@
     </header>
 
     <!-- Page Title Hero -->
-    <section class="pt-40 pb-20 bg-black border-b-2 border-bordergray relative overflow-hidden">
+    <section class="pt-40 pb-20 border-b-2 border-bordergray relative overflow-hidden bg-transparent z-10">
         <div class="absolute inset-0 z-0 opacity-20">
             <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover mix-blend-luminosity">
         </div>
@@ -97,23 +149,23 @@
             <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight">WORKS</h1>
             <p class="text-crimson font-bold tracking-widest mb-8">成果と実績</p>
             <h2 class="text-2xl md:text-4xl font-black leading-tight text-gray-200">
-                デザインのためのデザインはしない。<br>
-                すべては「売上」と「集客」を最大化するために。
+                <span class="inline-block">デザインのための</span><span class="inline-block">デザインはしない。</span><br class="hidden md:block">
+                <span class="inline-block">すべては「売上」と「集客」を</span><span class="inline-block">最大化するために。</span>
             </h2>
         </div>
     </section>
 
     <!-- Web Design Works (Grid Layout) -->
-    <section class="py-24 bg-darkbase border-b-2 border-bordergray">
+    <section class="py-24 bg-transparent border-b-2 border-bordergray relative z-10">
         <div class="max-w-7xl mx-auto px-4">
             <div class="mb-16 fade-up">
-                <h3 class="text-3xl md:text-4xl font-black text-white mb-4 border-l-8 border-crimson pl-4">Web Site Production</h3>
-                <p class="text-gray-400 font-bold">格安・爆速で構築した、成果に直結するホームページの作例。</p>
+                <h3 class="text-3xl md:text-4xl font-black text-white mb-4 border-l-8 border-crimson pl-4 bg-black/50 inline-block pr-4 py-1">Web Site Production</h3>
+                <p class="text-gray-400 font-bold mt-2">格安・爆速で構築した、成果に直結するホームページの作例。</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Work 1: 飲食店 -->
-                <a href="works1.html" target="_blank" rel="noopener noreferrer" class="block bg-black border-2 border-bordergray group fade-up hover:border-crimson transition-colors duration-300">
+                <a href="works1.html" target="_blank" rel="noopener noreferrer" class="block bg-black/80 backdrop-blur-md border-2 border-bordergray group fade-up hover:border-crimson transition-colors duration-300">
                     <div class="relative h-64 overflow-hidden border-b-2 border-bordergray">
                         <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1000&auto=format&fit=crop" alt="飲食店HP作例" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black/50 mix-blend-multiply group-hover:bg-black/30 transition-colors duration-500"></div>
@@ -128,14 +180,14 @@
                             「宴会予約を増やしたい」という要望に対し、スマホからの電話予約・LINE予約の導線を徹底的に最適化。シズル感のある写真で直感的に訴求。
                         </p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="text-xs text-gray-300 bg-bordergray px-2 py-1">Tailwind CSS</span>
-                            <span class="text-xs text-gray-300 bg-bordergray px-2 py-1">スマホ特化</span>
+                            <span class="text-xs text-gray-300 bg-bordergray/80 px-2 py-1">Tailwind CSS</span>
+                            <span class="text-xs text-gray-300 bg-bordergray/80 px-2 py-1">スマホ特化</span>
                         </div>
                     </div>
                 </a>
 
                 <!-- Work 2: 美容室 -->
-                <a href="works2.html" target="_blank" rel="noopener noreferrer" class="block bg-black border-2 border-bordergray group fade-up hover:border-crimson transition-colors duration-300" style="transition-delay: 100ms;">
+                <a href="works2.html" target="_blank" rel="noopener noreferrer" class="block bg-black/80 backdrop-blur-md border-2 border-bordergray group fade-up hover:border-crimson transition-colors duration-300" style="transition-delay: 100ms;">
                     <div class="relative h-64 overflow-hidden border-b-2 border-bordergray">
                         <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1000&auto=format&fit=crop" alt="美容室HP作例" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black/50 mix-blend-multiply group-hover:bg-black/30 transition-colors duration-500"></div>
@@ -150,14 +202,14 @@
                             インスタグラムの世界観と完全にリンクさせたダークトーンのデザイン。スタッフの指名予約への遷移をスムーズにし、新規獲得コストを削減。
                         </p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="text-xs text-gray-300 bg-bordergray px-2 py-1">ブランディング</span>
-                            <span class="text-xs text-gray-300 bg-bordergray px-2 py-1">SNS連携</span>
+                            <span class="text-xs text-gray-300 bg-bordergray/80 px-2 py-1">ブランディング</span>
+                            <span class="text-xs text-gray-300 bg-bordergray/80 px-2 py-1">SNS連携</span>
                         </div>
                     </div>
                 </a>
 
                 <!-- Work 3: BtoB 企業 -->
-                <a href="works3.html" target="_blank" rel="noopener noreferrer" class="block bg-black border-2 border-bordergray group fade-up hover:border-crimson transition-colors duration-300" style="transition-delay: 200ms;">
+                <a href="works3.html" target="_blank" rel="noopener noreferrer" class="block bg-black/80 backdrop-blur-md border-2 border-bordergray group fade-up hover:border-crimson transition-colors duration-300" style="transition-delay: 200ms;">
                     <div class="relative h-64 overflow-hidden border-b-2 border-bordergray">
                         <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop" alt="BtoB企業HP作例" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black/50 mix-blend-multiply group-hover:bg-black/30 transition-colors duration-500"></div>
@@ -172,8 +224,8 @@
                             採用強化と元請け企業からの信頼獲得を目的としたコーポレートサイト。無駄な装飾を削ぎ落とし、実績と企業理念が最短で伝わる構成に。
                         </p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="text-xs text-gray-300 bg-bordergray px-2 py-1">BtoB特化</span>
-                            <span class="text-xs text-gray-300 bg-bordergray px-2 py-1">採用強化</span>
+                            <span class="text-xs text-gray-300 bg-bordergray/80 px-2 py-1">BtoB特化</span>
+                            <span class="text-xs text-gray-300 bg-bordergray/80 px-2 py-1">採用強化</span>
                         </div>
                     </div>
                 </a>
@@ -181,18 +233,17 @@
         </div> 
     </section>
 
-    <!-- Instagram Operations (New Metrics & Reels) -->
-    <section class="py-24 bg-black border-b-2 border-bordergray">
+    <!-- Instagram Operations -->
+    <section class="py-24 bg-black/80 backdrop-blur-sm border-b-2 border-bordergray relative z-10">
         <div class="max-w-7xl mx-auto px-4">
             <div class="mb-16 text-right fade-up">
-                <h3 class="text-3xl md:text-4xl font-black text-white mb-4 border-r-8 border-crimson pr-4">Instagram Operations</h3>
-                <p class="text-gray-400 font-bold">フォロワー数ではなく、「売上」にこだわった運用実績とクリエイティブ。</p>
+                <h3 class="text-3xl md:text-4xl font-black text-white mb-4 border-r-8 border-crimson pr-4 inline-block bg-black/50 py-1 pl-4">Instagram Operations</h3>
+                <p class="text-gray-400 font-bold mt-2">フォロワー数ではなく、「売上」にこだわった運用実績とクリエイティブ。</p>
             </div>
 
             <!-- インパクトのある数字グリッド -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
-                <!-- 成果1 -->
-                <div class="bg-darkbase border-2 border-bordergray p-8 text-center flex flex-col justify-center fade-up">
+                <div class="bg-darkbase/80 backdrop-blur-md border-2 border-bordergray p-8 text-center flex flex-col justify-center fade-up">
                     <p class="text-gray-500 font-bold text-sm mb-6">アカウント開設1年</p>
                     <div class="flex items-center justify-center gap-4 mb-4">
                         <span class="text-3xl font-black text-gray-600 line-through">0</span>
@@ -203,8 +254,7 @@
                         ゼロからの立ち上げで、あなたのファンとなる濃いフォロワーを獲得。
                     </p>
                 </div>
-                <!-- 成果2 -->
-                <div class="bg-darkbase border-2 border-bordergray p-8 text-center flex flex-col justify-center fade-up" style="transition-delay: 100ms;">
+                <div class="bg-darkbase/80 backdrop-blur-md border-2 border-bordergray p-8 text-center flex flex-col justify-center fade-up" style="transition-delay: 100ms;">
                     <p class="text-gray-500 font-bold text-sm mb-6">的確なマーケット分析</p>
                     <div class="flex items-center justify-center mb-4">
                         <span class="text-5xl md:text-6xl font-black text-white">10,000<span class="text-2xl text-crimson ml-1">再生超</span></span>
@@ -213,8 +263,7 @@
                         ターゲット層に深く刺さるリール動画を戦略的に制作し、確実な認知拡大へ。
                     </p>
                 </div>
-                <!-- 成果3 -->
-                <div class="bg-darkbase border-2 border-bordergray p-8 text-center flex flex-col justify-center fade-up" style="transition-delay: 200ms;">
+                <div class="bg-darkbase/80 backdrop-blur-md border-2 border-bordergray p-8 text-center flex flex-col justify-center fade-up" style="transition-delay: 200ms;">
                     <p class="text-gray-500 font-bold text-sm mb-6">Instagram経由の問い合わせ総数</p>
                     <div class="flex items-end justify-center gap-1 mb-4">
                         <span class="text-5xl md:text-6xl font-black text-white">100<span class="text-2xl text-gray-400 ml-1">件</span></span>
@@ -230,37 +279,34 @@
 
             <!-- Instagramリール動画埋め込み -->
             <div class="mb-12 text-right fade-up">
-                <h4 class="text-2xl font-black text-white mb-2 border-r-8 border-crimson pr-4 inline-block">戦略的リール動画の作例</h4>
+                <h4 class="text-2xl font-black text-white mb-2 border-r-8 border-crimson pr-4 inline-block bg-black/50 py-1 pl-4">戦略的リール動画の作例</h4>
                 <p class="text-gray-500 font-bold mt-2 text-sm">実際の運用で大きな反響を生んだクリエイティブ</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center fade-up">
-                <!-- Reel 1 -->
-                <div class="w-full max-w-sm border-2 border-bordergray bg-darkbase p-2 flex justify-center items-center">
+                <div class="w-full max-w-sm border-2 border-bordergray bg-darkbase/80 backdrop-blur-md p-2 flex justify-center items-center">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DR4XqVKjtHH/?utm_source=ig_web_copy_link" data-instgrm-version="14" style="background:#0a0a0a; border:0; margin: 0; max-width:320px; width:100%;"></blockquote>
                 </div>
-                <!-- Reel 2 -->
-                <div class="w-full max-w-sm border-2 border-bordergray bg-darkbase p-2 flex justify-center items-center">
+                <div class="w-full max-w-sm border-2 border-bordergray bg-darkbase/80 backdrop-blur-md p-2 flex justify-center items-center">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DXWeHrMjmNY/?utm_source=ig_web_copy_link" data-instgrm-version="14" style="background:#0a0a0a; border:0; margin: 0; max-width:320px; width:100%;"></blockquote>
                 </div>
-                <!-- Reel 3 -->
-                <div class="w-full max-w-sm border-2 border-bordergray bg-darkbase p-2 flex justify-center items-center">
+                <div class="w-full max-w-sm border-2 border-bordergray bg-darkbase/80 backdrop-blur-md p-2 flex justify-center items-center">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DUNpTzgDgpq/?utm_source=ig_web_copy_link" data-instgrm-version="14" style="background:#0a0a0a; border:0; margin: 0; max-width:320px; width:100%;"></blockquote>
                 </div>
             </div>
             
-            <!-- Instagram Embed Script (非同期読み込み) -->
+            <!-- Instagram Embed Script -->
             <script async src="https://www.instagram.com/embed.js"></script>
         </div>
     </section>
 
     <!-- Bottom CTA Section -->
-    <section class="py-24 bg-crimson">
+    <section class="py-24 bg-crimson/95 backdrop-blur-sm relative z-10">
         <div class="max-w-4xl mx-auto px-4 text-center fade-up">
             <h2 class="text-3xl md:text-5xl font-black text-white mb-6">次は、あなたの番です。</h2>
             <p class="text-xl text-white font-bold mb-10 leading-relaxed">
-                現状の課題感をそのままぶつけてください。<br>
-                押し売りは一切いたしません。最適な道筋を一緒に考えます。
+                <span class="inline-block">現状の課題感をそのまま</span><span class="inline-block">ぶつけてください。</span><br class="hidden md:block">
+                <span class="inline-block">押し売りは一切いたしません。</span><span class="inline-block">最適な道筋を一緒に考えます。</span>
             </p>
             <a href="contact.html" class="inline-flex items-center justify-center bg-black text-white text-lg md:text-xl font-bold py-4 px-10 border-2 border-black hover:bg-transparent hover:border-white transition-all duration-300">
                 無料相談に進む
@@ -270,7 +316,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black pt-16 pb-8 border-t-2 border-bordergray">
+    <footer class="bg-black pt-16 pb-8 border-t-2 border-bordergray relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center md:items-start gap-8 mb-12">
             <div>
                 <a href="index.html" class="text-3xl font-black tracking-wider text-white block mb-4">
