@@ -52,7 +52,6 @@
         /* ========================================
            スタイリッシュ背景アニメーション
         ======================================== */
-        /* 1. 斜線ストライプの無限スクロール */
         .bg-stripe {
             background-image: repeating-linear-gradient(
                 -45deg,
@@ -69,7 +68,6 @@
             100% { background-position: -28.28px 28.28px; }
         }
 
-        /* 2. スキャンライン（光の筋） */
         .bg-slit {
             position: absolute;
             width: 200%;
@@ -103,22 +101,6 @@
         <div class="bg-slit"></div>
         <div class="bg-slit bg-slit-sub"></div>
     </div>
-
-    <!-- ==================== OP アニメーション (P5 Style) ==================== -->
-    <div id="op-anim" class="fixed inset-0 z-[100] bg-darkbase flex items-center justify-center overflow-hidden transition-opacity duration-700 ease-out">
-        <div id="op-logo" class="absolute z-[101] flex items-center justify-center opacity-0 scale-75 transition-all duration-700 ease-out w-full px-4">
-            <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white italic tracking-tighter -rotate-2 drop-shadow-[4px_4px_0_#E60012] text-center leading-tight">
-                WEBPARTNER MINAMI<span class="text-crimson">.</span>
-            </h1>
-        </div>
-        <div class="absolute inset-0 z-[102] flex flex-col justify-center items-center -rotate-[15deg] scale-150 pointer-events-none">
-            <div id="op-panel-top" class="w-full h-[60vh] bg-black transition-transform duration-700 ease-in-out translate-y-0 relative">
-                <div id="op-slash" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[4px] bg-white shadow-[0_0_25px_10px_rgba(230,0,18,0.9)] transition-all duration-300 ease-out"></div>
-            </div>
-            <div id="op-panel-bottom" class="w-full h-[60vh] bg-black transition-transform duration-700 ease-in-out translate-y-0"></div>
-        </div>
-    </div>
-    <!-- ==================================================================== -->
 
     <!-- Header -->
     <header class="fixed w-full top-0 z-50 bg-darkbase/80 backdrop-blur-md border-b-2 border-bordergray">
@@ -313,45 +295,7 @@
 
     <!-- Scripts -->
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const opAnim = document.getElementById('op-anim');
-            const opSlash = document.getElementById('op-slash');
-            const opPanelTop = document.getElementById('op-panel-top');
-            const opPanelBottom = document.getElementById('op-panel-bottom');
-            const opLogo = document.getElementById('op-logo');
-
-            if(opAnim) {
-                document.body.style.overflow = 'hidden';
-
-                setTimeout(() => {
-                    opSlash.style.width = '100%';
-                }, 300);
-
-                setTimeout(() => {
-                    opSlash.style.opacity = '0';
-                    opPanelTop.style.transform = 'translateY(-100%)';
-                    opPanelBottom.style.transform = 'translateY(100%)';
-                    
-                    opLogo.style.opacity = '1';
-                    opLogo.style.transform = 'scale(1)';
-                }, 700);
-
-                setTimeout(() => {
-                    opLogo.style.transform = 'scale(1.05)';
-                }, 1400);
-
-                setTimeout(() => {
-                    opAnim.style.opacity = '0';
-                    opAnim.style.pointerEvents = 'none';
-                    document.body.style.overflow = '';
-                }, 2200);
-
-                setTimeout(() => {
-                    opAnim.remove();
-                }, 2900);
-            }
-        });
-
+        // ハンバーガーメニュー
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const lines = menuBtn.querySelectorAll('span');
@@ -369,7 +313,13 @@
             }
         });
 
-        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        // スクロールフェードイン
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
